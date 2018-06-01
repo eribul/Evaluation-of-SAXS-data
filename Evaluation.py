@@ -80,7 +80,7 @@ for run in range (0,numrun):
         # if the  intenstities in data1 are within 2 standard deviations from the mean= fulfils the condition (intensities1-intensities1.mean()<=(2*intensities1.std())) continue with the evaluation, if not disregard the data in that file.
 #Use filtered files and make a new loop with them: for file in filtered files....pick up intensities, q and error from those       
 
-            
+#            
     #        if not (val-data1[:numq,1].mean()<=(2*data1[:numq,1].std())): 
     #            no_outlier = False
      #           print(no_outlier)
