@@ -69,7 +69,7 @@ for run in range (0,numrun):
 
 #Plot of average intensities for each image, check that outliers (image files which are not within 2 standard devations from the mean) are removed 
 %matplotlib notebook
-plt.plot(np.average(intensities1,axis=0),color='g', label='off')
+plt.plot(np.average(intensities1,axis=0),color='g', label='Off')
 plt.title ('Calmodulin')
 plt.xlabel ('Image number')
 plt.ylabel ('Mean Intensity')
@@ -89,15 +89,24 @@ plt.semilogy(data1[:,0],data1[:,1],color='g')
 plt.show()
 
 #SAXS Plot, all q and all intensities individually
-%matplotlib
-plt.semilogy(q,intensities1)
+%matplotlib notebook
+plt.semilogy(np.average(q,intensities1))
 plt.show()    
 
+#From here i can not get it to work but this is what I plan to do....
 #Average of all intensities, why does it not work?
-%matplotlib
-plt.semilogy(q,np.average(intensities1,axis=1),color='g', label='Off')
-plt.title ('Calmodulin')
-plt.xlabel ('q (nm-1)')
-plt.ylabel ('Log I (q)')
-plt.legend(bbox_to_anchor=(1, 1), loc=1, borderaxespad=0.2)
+%matplotlib notebook
+plt.semilogy(q,np.average(intensities1,axis=1))
+plt.show()
+
+#Odd-even frame, with errorbars. Also empty, why?
+diffs1=intensities1[:,0::2]-intensities1[:,1::2]
+avdiff1=np.average(diffs1,axis=1)
+avdiff1.shape
+differrors1=errors1[:,0::2]+errors1[:,1::2]
+sigmadiff1=np.std(differrors1,axis=1)/math.sqrt(200)
+
+
+%matplotlib notebook
+plt.errorbar(q,avdiff1,yerr=sigmadiff1, color='g')
 plt.show()
