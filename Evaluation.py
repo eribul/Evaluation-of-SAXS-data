@@ -12,8 +12,8 @@ import math
 from scipy import stats
 from matplotlib import pylab
 
-#Input data
-numrun=4
+#1, Input data, this will use all the files
+numrun=1
 numq=2358
 startrun=426
 
@@ -38,9 +38,9 @@ plt.ylabel ('Mean Intensity')
 plt.legend(bbox_to_anchor=(1, 1), loc=1, borderaxespad=0.2)
 pylab.ylim([45000,50000])    
 
-#Identify and remove the outliers:
+#2, Identify and remove the outliers:
 mean_image_values = []
-filtered_files =[] #Files within 2 standard deviations of the mean
+filtered_files =[] #Files that will be used for the subsequent analysis, with a mean intesity within 2 standard deviations of the mean
 
 for run in range (0,numrun):
     for image in range (1,101):
@@ -76,7 +76,7 @@ plt.ylabel ('Mean Intensity')
 plt.legend(bbox_to_anchor=(1, 1), loc=1, borderaxespad=0.2)
 pylab.ylim([45000,50000]) 
 
-#Continue with evaluation of data without the outliers:
+#3, Continue with evaluation of data without the outliers:
 for file in filtered_files :
     data1=np.genfromtxt('/home/bsb-lab/Documents/Maja/SAXS/Hamburg_data/img_%04d_%05d.dat' %(run+startrun,image) , skip_header=2, skip_footer=60) 
     q=data1[:numq,0]  
@@ -88,25 +88,3 @@ for file in filtered_files :
 plt.semilogy(data1[:,0],data1[:,1],color='g')
 plt.show()
 
-#SAXS Plot, all q and all intensities individually
-%matplotlib notebook
-plt.semilogy(np.average(q,intensities1))
-plt.show()    
-
-#From here i can not get it to work but this is what I plan to do....
-#Average of all intensities, why does it not work?
-%matplotlib notebook
-plt.semilogy(q,np.average(intensities1,axis=1))
-plt.show()
-
-#Odd-even frame, with errorbars. Also empty, why?
-diffs1=intensities1[:,0::2]-intensities1[:,1::2]
-avdiff1=np.average(diffs1,axis=1)
-avdiff1.shape
-differrors1=errors1[:,0::2]+errors1[:,1::2]
-sigmadiff1=np.std(differrors1,axis=1)/math.sqrt(200)
-
-
-%matplotlib notebook
-plt.errorbar(q,avdiff1,yerr=sigmadiff1, color='g')
-plt.show()
