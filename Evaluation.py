@@ -15,20 +15,15 @@ from matplotlib import pylab
 # 1, Input data, this will use all the files
 numrun = 1
 numq = 2358
-startrun = 426
+startrun = 434
 
 intensities1 = np.zeros((numq, numrun * 100))
 errors1 = np.zeros((numq, numrun * 100))
 
 for run in range(0, numrun):
     for image in range(1, 101):
-        data1 = np.genfromtxt(
-                    '/home/bsb-lab/Documents/Maja/SAXS/Hamburg_data/' +
-                    'img_%04d_%05d.dat'
-                    % (run + startrun, image),
-                    skip_header=2,
-                    skip_footer=60
-                )
+        data1 = np.genfromtxt('img_%04d_%05d.dat' % (run + startrun, image),
+                              skip_header=2, skip_footer=60)
         q = data1[:numq, 0]
         intensities1[:, run * 100 + image - 1] = data1[:numq, 1]
         errors1[:, run * 100 + image - 1] = data1[:numq, 2]
@@ -56,13 +51,8 @@ filtered_files = []
 
 for run in range(0, numrun):
     for image in range(1, 101):
-        data1 = np.genfromtxt(
-                    '/home/bsb-lab/Documents/Maja/SAXS/Hamburg_data/' +
-                    'img_%04d_%05d.dat'
-                    % (run + startrun, image),
-                    skip_header=2,
-                    skip_footer=60
-                )
+        data1 = np.genfromtxt('img_%04d_%05d.dat' % (run + startrun, image),
+                              skip_header=2, skip_footer=60)
         mean_image_values.append(data1[:numq, 1].mean())
 
 mean_image_value = np.mean(mean_image_values)
@@ -70,13 +60,8 @@ std_image_value = np.std(mean_image_values)
 
 for run in range(0, numrun):
     for image in range(1, 101):
-        data1 = np.genfromtxt(
-                    '/home/bsb-lab/Documents/Maja/SAXS/Hamburg_data/' +
-                    'img_%04d_%05d.dat'
-                    % (run + startrun, image),
-                    skip_header=2,
-                    skip_footer=60
-                )
+        data1 = np.genfromtxt('img_%04d_%05d.dat' % (run + startrun, image),
+                              skip_header=2, skip_footer=60)
 
         # If mean intensity for image is within 2 standard deviations of
         # mean value of all images.
@@ -85,11 +70,8 @@ for run in range(0, numrun):
             q = data1[:numq, 0]
             intensities1[:, run * 100 + image - 1] = data1[:numq, 1]
             errors1[:, run * 100 + image - 1] = data1[:numq, 2]
-            filtered_files.append(
-                    '/home/bsb-lab/Documents/Maja/SAXS/Hamburg_data/' +
-                    'img_%04d_%05d.dat'
-                    % (run+startrun, image)
-            )
+            filtered_files.append('img_%04d_%05d.dat'
+                                  % (run + startrun, image))
         else:
             q = data1[:numq, 0] = None
             intensities1[:, run * 100 + image - 1] = None
@@ -110,9 +92,8 @@ pylab.ylim([45000, 50000])
 
 # 3, Continue with evaluation of data without the outliers:
 for file in filtered_files:
-    data1 = np.genfromtxt(
-            '/home/bsb-lab/Documents/Maja/SAXS/Hamburg_data/img_%04d_%05d.dat'
-            % (run+startrun, image), skip_header=2, skip_footer=60)
+    data1 = np.genfromtxt('img_%04d_%05d.dat' % (run + startrun, image),
+                          skip_header=2, skip_footer=60)
     q = data1[:numq, 0]
     intensities1[:, run * 100 + image - 1] = data1[:numq, 1]
     errors1[:, run * 100 + image - 1] = data1[:numq, 2]
